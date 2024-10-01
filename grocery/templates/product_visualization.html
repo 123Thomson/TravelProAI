@@ -1,0 +1,35 @@
+{% extends 'navigation.html' %}
+{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Visualization</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>Product Visualization</h1>
+
+    <div id="donut-chart" style="width: 100%; height: 100%; max-width: 600px; margin: auto;"></div>
+
+    <script>
+        const productNames = {{ product_names|safe }};
+        const productCounts = {{ product_counts|safe }};
+        
+        const trace = {
+            labels: productNames,
+            values: productCounts,
+            type: 'pie',
+            hole: 0.4 // Makes it a donut chart
+        };
+
+        const layout = {
+            title: 'Product Distribution',
+            showlegend: true
+        };
+
+        Plotly.newPlot('donut-chart', [trace], layout);
+    </script>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,114 @@
+<!-- grocery/templates/grocery/chatbot.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://techeela.com/wp-content/uploads/2023/11/OpenAI-launches-GPTs-to-help-make-ChatGPT-like-chatbot.jpg'); /* Replace with your background image URL */
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        #chatbox {
+            width: 400px;
+            max-width: 90%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #messages {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .user-message, .bot-message {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+            max-width: 70%;
+        }
+
+        .user-message {
+            background-color: #d1e7dd;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+
+        .bot-message {
+            background-color: #cfe2ff;
+            align-self: flex-start;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 70px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 5px;
+        }
+
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center; color: white;">Chatbot</h1>
+    <div id="chatbox">
+        <div id="messages"></div>
+        <div style="display: flex;">
+            <input type="text" id="user-input" placeholder="Type your message here...">
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#send-button').click(function() {
+                var userInput = $('#user-input').val();
+                $('#messages').append('<div class="user-message">You: ' + userInput + '</div>');
+                $('#user-input').val('');
+
+                $.ajax({
+                    url: '/get-chatbot-response/',
+                    data: {
+                        'message': userInput
+                    },
+                    success: function(data) {
+                        $('#messages').append('<div class="bot-message">Bot: ' + data.response + '</div>');
+                        $('#messages').scrollTop($('#messages')[0].scrollHeight); // Scroll to the bottom
+                    },
+                    error: function() {
+                        $('#messages').append('<div class="bot-message">Bot: Sorry, there was an error.</div>');
+                        $('#messages').scrollTop($('#messages')[0].scrollHeight); // Scroll to the bottom
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

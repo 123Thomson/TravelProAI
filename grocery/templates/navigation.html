@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <title>TravelpPro</title>
+    <link rel="icon" href="images/favicon.ico">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready( function () {
+            $('#myTable').DataTable();
+        } );
+    </script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        #myInput {
+            background-image: url('/css/searchicon.png');
+            background-position: 10px 10px;
+            background-repeat: no-repeat;
+            width: 20%;
+            font-size: 16px;
+            padding: 12px 20px 12px 40px;
+            border: 1px solid #ddd;
+            margin-bottom: 12px;
+        }
+        #myTable {
+            border-collapse: collapse;
+            width: 100%;
+            border: 1px solid #ddd;
+            font-size: 18px;
+        }
+        #myTable th {
+            text-align: left;
+            padding: 12px;
+            background-color: rgb(48, 14, 29);
+            color: white;
+        }
+        #myTable td {
+            text-align: left;
+            padding: 12px;
+            background-color: white;
+        }
+        #myTable tr {
+            border-bottom: 1px solid #ddd;
+        }
+        #myTable tr.header, #myTable tr:hover {
+            background-color: #f1f1f1;
+        }
+        .button {
+            background-color: rgb(226, 43, 43);
+            border: none;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 1px 1px;
+            cursor: pointer;
+        }
+        .button1 {border-radius: 15px;}
+        .carousel-inner img {
+            width: 100%;
+            height: 100%;
+        }
+        ::-webkit-scrollbar {
+            width: 20px;
+        }
+        ::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 5px grey;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #a9949b;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5b5558;
+        }
+        .nav-link:hover{
+            color: lightblue !important;
+            background-color: #e21bca;
+            border-radius:10px
+        }
+        .nav-link{
+            /*font-weight:bold;*/
+        }
+        .navbar-brand{
+            text-shadow: 1px 1px lightblue;
+        }
+        .navbar-brand:hover{
+            color: #00060c !important;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body style="background-color:rgb(202, 201, 201)">
+<nav class="navbar navbar-expand-sm" style="background-color : #f1eef1 ; border-bottom:1px solid #e0e9cd">
+    <a class="navbar-brand pl-3" href="#" style="color: rgb(74, 28, 63); font-weight: bold; font-size: 3rem; text-shadow: 2px 2px lightblue;">TravelPro</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav pl-2 text-center">
+            {% if request.user.is_staff %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'admin_home' %}" style="color:rgb(0, 0, 0)"><ion-icon style="margin-right:0px" name="home-sharp"></ion-icon>Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'view_user' %}" style="color:rgb(2, 1, 1)"><ion-icon style="margin-right:0px" name="people"></ion-icon>ViewUser</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'admin_viewBooking' %}" style="color:rgb(0, 0, 0)"><ion-icon style="margin-right:0px" name="logo-bitcoin"></ion-icon>Bookings</a>
+            </li>
+        
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="color:rgb(0, 0, 0)"><ion-icon style="margin-right:0px" name="albums"></ion-icon>Travel Plans</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'add_product' %}">Add Travel Plans</a>
+                    <a class="dropdown-item" href="{% url 'admin_view_product' %}">View Travel Plans</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="color:rgb(0, 0, 0)"><ion-icon style="margin-right:1px" name="newspaper-sharp"></ion-icon>Category</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'add_categary' %}">Add Category</a>
+                    <a class="dropdown-item" href="{% url 'view_categary' %}">View Category</a>
+                </div>
+            </li>
+
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="color:rgb(0, 0, 0)"><ion-icon style="margin-right:1px" name="newspaper-sharp"></ion-icon>Visualization</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'sales_visualization' %}">sales Visualization</a>
+                    <a class="dropdown-item" href="{% url 'product_visualization' %}">Product Visualization</a>
+                    <a class="dropdown-item" href="{% url 'product_reports' %}">Product Reports</a>
+                </div>
+            </li>
+
+
+
+            <li class="nav-item"></li>
+                <a class="nav-link" href="{% url 'sales_report' %}" style="color:rgb(0, 0, 0)"><ion-icon style="margin-right:0px" name="download-outline"></ion-icon>Download Sales Report</a>
+            </li>
+
+
+            
+            <div class="dashboard">
+                
+            </div>
+            {% endif %}
+            {% if request.user.username %}
+                {% if not request.user.is_staff %}
+
+                <li class="nav-item">
+                    <a class="nav-link btn btn-primary" href="https://intelligenttravelplanningsystem.streamlit.app/" style="color: rgb(255, 255, 255);" target="_blank">
+                       </ion-icon> Predict Travel Plan AI
+                    </a>
+                </li>
+
+
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'view_product' 0 %}" style="color:rgb(0, 0, 0)"><ion-icon style="margin-right:2px" name="eye"></ion-icon>Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'view_booking' %}" style="color:rgb(13, 13, 13)"><ion-icon style="margin-right:2px" name="aperture"></ion-icon>My Bookings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'change_password' %}" style="color:rgb(1, 1, 1)"><ion-icon style="margin-right:2px" name="document-text-sharp"></ion-icon>Change Password</a>
+                </li>
+                <li class="nav-item dropdown"></li>
+                {% endif %}
+                {% if not request.user.is_staff %}
+                
+
+
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary" href="{% url 'chatbot' %}" style="color:rgb(244, 247, 248)">
+                            </ion-icon>Chat with Me
+                        </a>
+                    </li>
+
+                    <!-- <li class="nav-item">
+                        <a class="nav-link btn btn-primary" href="https://intelligenttravelplanningsystem.streamlit.app/" style="color: rgb(255, 255, 255);" target="_blank">
+                           </ion-icon> Predict Travel Plan AI
+                        </a>
+                    </li> -->
+                    
+
+                    <li class="nav-item"></li>
+                        <a class="nav-link" href="{% url 'cart' %}" style="color:rgb(1, 1, 1)">
+                            <ion-icon style="margin-right:2px" name="heart"></ion-icon>Selected-plan
+                        </a>
+                    </li>
+                    
+                    
+
+
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}" style="color:rgb(0, 0, 0)"><ion-icon style="margin-right:1px" name="power-sharp"></ion-icon>Logout</a>
+                </li>
+                {% if not request.user.is_staff %}
+                <li class="nav-item">
+                    <a href="{% url 'profile' %}"><h5 class="nav-link" style="color:#000000 ; text-transform : capitalize"><ion-icon style="margin-right:4px;color:#5e99de" name="person-circle-sharp"></ion-icon>Welcome {{request.user.username}}</h5>
+                    </a>
+                </li>
+
+                
+                {% endif %}
+            {% else %}
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}" style="color:rgb(15, 14, 14);text-align:right"><ion-icon style="margin-right:2px" name="log-in-sharp"></ion-icon>User Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login_admin' %}" style="color:rgb(6, 6, 6);text-align:right"><ion-icon style="margin-right:2px" name="log-in-sharp"></ion-icon>Admin Login</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    
+                </ul>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+{% block body %}
+{% endblock %}
+</body>
+</html>

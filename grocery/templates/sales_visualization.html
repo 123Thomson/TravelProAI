@@ -1,0 +1,40 @@
+{% extends 'navigation.html' %}
+{% block body %}
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sales Visualization</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>Sales Visualization</h1>
+    <div id="sales-chart"></div>
+
+    <script>
+        const salesData = {{ sales_summary|safe }};
+        const trace = {
+            x: salesData.map(item => item.book_date),
+            y: salesData.map(item => item.total),
+            type: 'bar'
+        };
+
+        const layout = {
+            title: 'Sales Over Time',
+            xaxis: {
+                title: 'Date'
+            },
+            yaxis: {
+                title: 'Total Sales'
+            }
+        };
+
+        Plotly.newPlot('sales-chart', [trace], layout);
+    </script>
+</body>
+</html>
+
+{% endblock %}

@@ -1,0 +1,177 @@
+{% extends 'navigation.html' %}
+{% block body %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<!-- Custom styles for this template -->
+<link href="{% static 'css/simple-sidebar.css' %}" rel="stylesheet">
+<style>
+  /* Custom CSS styles */
+  .card {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+  }
+
+  .card-img-top {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 200px;
+    object-fit: cover; /* Adjusts the image to cover the card */
+  }
+
+  .card-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .card-text {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #555;
+  }
+
+  .card-footer {
+    background-color: #f9f9f9;
+    border-top: 1px solid #eee;
+    padding: 15px;
+  }
+
+  .card-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .btn-block {
+    width: 100%;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .btn-block:hover {
+    background-color: #0056b3;
+  }
+
+  /* Horizontal Sidebar */
+  #horizontal-sidebar {
+    background-color: #f8f9fa;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+  }
+
+  .sidebar-item {
+    display: inline-block;
+    padding: 10px 15px;
+    margin: 0 5px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    color: #333;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .sidebar-item:hover {
+    background-color: #e9ecef;
+  }
+
+  /* Ensure the page content is properly aligned */
+  #page-content-wrapper {
+    padding: 20px;
+  }
+</style>
+
+<!-- Page Content -->
+<div class="d-flex flex-column">
+  <!-- Horizontal Sidebar -->
+  <div id="horizontal-sidebar">
+    
+    {% for i in cat %}
+    <a href="{% url 'view_product' i.id %}" class="sidebar-item">{{i.name}}</a>
+    {% endfor %}
+  </div>
+  
+  <!-- Search Form -->
+  <div class="d-flex justify-content-center mt-3 mb-3">
+    <form class="form-inline" method="GET" action="{% url 'view_product' 0 %}">
+      <input class="form-control mr-sm-2" type="text" placeholder="Search by name or price" name="q" style="width: 500px;">
+      <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+
+  <div class="d-flex flex-column" id="wrapper">
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+      <div class="container-fluid">
+        <center>
+          <h4 style="color:rgb(12, 27, 114)">Available Travel Plans</h4>
+        </center>
+        <hr>
+        <div class="container-fluid">
+          <h1 class="text-center mt-5 mb-5"></h1>
+          <h2>{{cat1.name}}</h2>
+          <hr>
+          <div class="row">
+            {% for j in pro1 %}
+            <div class="col-md-3 mb-4">
+              <div class="card h-100">
+                <img class="card-img-top" src="{{j.image.url}}" alt="Card image cap">
+                <div class="card-body">
+                  <h5 class="card-title">{{j.name}}</h5>
+                  <p class="card-text">{{j.desc}}</p>
+                  <p class="card-price">
+                    Rs.{{j.price}} <span style="font-size: smaller; color: inherit;">/plan</span>
+                </p>
+                
+                </div>
+                <div class="card-footer">
+                  <form action="{% url 'add_cart' j.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary btn-block">View Details</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <hr>
+      </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+  </div>
+  <!-- /#wrapper -->
+</div>
+<!-- /#top-wrapper -->
+
+<!-- Bootstrap core JavaScript -->
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- Menu Toggle Script -->
+<script>
+  $("#menu-toggle").click(function(e) {
+    e.preventDefault();
+    $("#wrapper").toggleClass("toggled");
+  });
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+{% endblock %}

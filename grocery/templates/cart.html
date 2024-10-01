@@ -1,0 +1,52 @@
+{% extends 'navigation.html' %}
+{% block body %}
+<center><h2 style="color: rgb(10, 19, 139); margin-top: 2%; font-size: 32px;">Selected Travel Plan Details</h2></center><hr>
+
+{% if not cart %}
+<h1 align="center" style="color: blue; font-size: 24px;">{{ message }}</h1>
+{% else %}
+<center>
+<div class="container" style="border: 1px solid #fff; padding: 40px; border-radius: 20px; background-color: #f1f1f1; max-width: 1200px; margin-top: 20px; box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);">
+    {% for item in cart %}
+    <div class="cart-item" style="margin-top: 20px; padding: 30px; border: 1px solid #dee2e6; border-radius: 15px; background-color: #ffffff; display: flex; align-items: center; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease;">
+        <div class="item-image" style="flex: 1; max-width: 200px;">
+            <img src="{{ item.product.image.url }}" style="width: 100%; height: auto; max-height: 200px; border: 1px solid #e3e3e3; border-radius: 15px;">
+        </div>
+
+        <div class="item-details" style="flex: 2; padding-left: 30px;">
+            <h4 style="margin: 0; font-weight: bold; font-size: 24px;">{{ item.product.name }}</h4><hr>
+            <h5 style="margin: 0; font-weight: bold; font-size: 28px; color: #007bff;">Price: Rs.{{ item.product.price }}</h5>
+            <p style="margin: 10px 0; font-size: 18px; color: #555;">{{ item.product.desc }}</p>
+        </div>
+
+        <div class="item-remove" style="flex: 1; text-align: center;">
+            <a href="{% url 'remove_cart' item.id %}" style="color: red; font-size: 30px; text-decoration: none;" title="Remove">
+                &times;  <!-- Red '×' symbol -->
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+
+    <div class="container" style="margin-top: 30px; padding: 20px; border-radius: 15px; background-color: #ffffff; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
+        {% for item in cart %}
+        <form method="POST" action="{% url 'update_quantity' item.id %}" style="display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+            {% csrf_token %}
+            <label for="quantity-{{ item.id }}" style="font-size: 16px; margin-right: 10px;">Extend Travel plan:</label>
+            <input type="number" id="quantity-{{ item.id }}" name="quantity" value="{{ item.quantity }}" min="1" style="width: 90px; padding: 10px; font-size: 18px; border-radius: 8px; border: 1px solid #ced4da; margin-right: 10px;">
+            <button type="submit" class="btn btn-primary" style="padding: 8px 20px; font-size: 16px;">Get Total</button>
+        </form>
+        {% endfor %}
+
+        <div class="row">
+            <div class="col-md-4" style="height: 100px;">
+                <center><a href="{% url 'booking' total %}" class="btn btn-info text-light" style="font-size: 20px; padding: 10px 30px;"><ion-icon style="margin-right: 8px;" name=""></ion-icon>Book Now</a></center>
+            </div>
+            <div class="col-md-4" style="height: 100px;">
+                <center><span class="btn btn-default text-dark" style="font-size: 22px; font-weight: bold;">Total: Rs. {{ total }}</span></center>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'navigation.html' %}
+{% block body %}
+{% load static %}
+<div class="container">
+    <h2 style="margin-top:20px" align="center">Add Travel Plan</h2><hr>
+
+    <div class="card mx-auto" style="width: 70%; margin-top: 10%; background-image: url('https://img.freepik.com/premium-photo/close-up-paper-boat-map_1048944-15514673.jpg');">
+        <div class="card-body">
+            <form method="post" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="productName">Travel Plan Name</label>
+                    <input type="text" class="form-control" placeholder="Enter Travel Plan Name" name="pname" id="productName" required>
+                </div>
+              
+                <div class="form-group">
+                    <label for="productImage">Image</label>
+                    <input type="file" class="form-control" id="productImage" name="img" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="category">Category</label>
+                        <select id="category" class="form-control" name="cat" required>
+                            {% for i in cat %}
+                            <option value="{{i.name}}">{{i.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="productPrice">Package Rate (INR)</label>
+                        <input type="number" class="form-control" name="price" placeholder="Enter Price in INR" id="productPrice" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="description" name="desc" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% if error %}
+<script>
+    alert('Travel Plan Added Successfully');
+</script>
+{% endif %}
+{% endblock %}
