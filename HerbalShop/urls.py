@@ -87,5 +87,6 @@ urlpatterns = [
     path('delete_pet_profile_confirm/<int:pk>/', delete_pet_profile_confirm, name='delete_pet_profile_confirm'),
     path('chatbot/', chatbot_view, name='chatbot'),
     path('get-chatbot-response/', get_chatbot_response, name='get_chatbot_response'),
+    path('sales-report/', views.monthly_sales_report, name='monthly_sales_report'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

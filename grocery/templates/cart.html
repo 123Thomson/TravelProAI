@@ -31,15 +31,15 @@
         {% for item in cart %}
         <form method="POST" action="{% url 'update_quantity' item.id %}" style="display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
             {% csrf_token %}
-            <label for="quantity-{{ item.id }}" style="font-size: 16px; margin-right: 10px;">Extend Travel plan:</label>
-            <input type="number" id="quantity-{{ item.id }}" name="quantity" value="{{ item.quantity }}" min="1" style="width: 90px; padding: 10px; font-size: 18px; border-radius: 8px; border: 1px solid #ced4da; margin-right: 10px;">
-            <button type="submit" class="btn btn-primary" style="padding: 8px 20px; font-size: 16px;">Get Total</button>
+            <!-- <label for="quantity-{{ item.id }}" style="font-size: 16px; margin-right: 10px;">Extend Travel plan:</label>
+            <input type="number" id="quantity-{{ item.id }}" name="quantity" value="{{ item.quantity }}" min="1" style="width: 90px; padding: 10px; font-size: 18px; border-radius: 8px; border: 1px solid #ced4da; margin-right: 10px;"> -->
+            <button type="submit" class="btn btn-primary" style="padding: 8px 20px; font-size: 16px;">Total</button>
         </form>
         {% endfor %}
 
         <div class="row">
             <div class="col-md-4" style="height: 100px;">
-                <center><a href="{% url 'booking' total %}" class="btn btn-info text-light" style="font-size: 20px; padding: 10px 30px;"><ion-icon style="margin-right: 8px;" name=""></ion-icon>Book Now</a></center>
+                <center><a href="{% url 'booking' total %}" class="btn btn-info text-light" style="font-size: 20px; padding: 10px 30px;">Book Now</a></center>
             </div>
             <div class="col-md-4" style="height: 100px;">
                 <center><span class="btn btn-default text-dark" style="font-size: 22px; font-weight: bold;">Total: Rs. {{ total }}</span></center>

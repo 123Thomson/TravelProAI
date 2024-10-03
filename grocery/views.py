@@ -18,6 +18,7 @@ import os
 import requests
 from django.shortcuts import render
 from django.http import JsonResponse
+import uuid
 # Create your views here.
 
 def Home(request):
@@ -497,7 +498,8 @@ def Booking_order(request, pid):
         ad = request.POST['add']
         e = request.POST['email']
         con = request.POST['contact']
-        b = request.POST['book_id']
+        # b = request.POST['book_id']
+        b = str(uuid.uuid4())[:8] 
         t = request.POST['total']
         user = User.objects.get(username=c)
         profile = Profile.objects.get(user=user)
@@ -1389,6 +1391,52 @@ def get_chatbot_response(request):
         return JsonResponse({'response': essay})
     else:
         return JsonResponse({'error': 'No message provided'}, status=400)
+    
+
+# views.py
+
+from django.shortcuts import render
+from .models import Booking, Product
+from django.db.models import Sum
+from datetime import datetime
+
+def monthly_sales_report(request):
+    # Get the selected year and month from the GET parameters (or default to current month/year)
+    selected_date = request.GET.get('month', None)
+    
+    if selected_date:
+        year, month = map(int, selected_date.split('-'))
+    else:
+        # Default to the current month
+        today = datetime.today()
+        year, month = today.year, today.month
+
+    # Query the Booking model for sales data in the selected month and year
+    product_sales = Booking.objects.filter(
+        book_date__year=year, book_date__month=month
+    ).values('product__name').annotate(
+        total_quantity=Sum('quantity'),
+        total_amount=Sum('total')
+    )
+
+    # Calculate total sales
+    total_sales = product_sales.aggregate(total_sales=Sum('total_amount'))['total_sales'] or 0
+
+    # Prepare data for the chart
+    chart_data = {
+        'labels': [item['product__name'] for item in product_sales],
+        'data': [item['total_amount'] for item in product_sales]
+    }
+
+    context = {
+        'total_sales': total_sales,
+        'month': f"{year}-{month:02d}",
+        'product_sales': product_sales,
+        'chart_data': chart_data,  # Pass chart data to context
+    }
+
+    return render(request, 'product_report.html', context)
+
 
     
 
