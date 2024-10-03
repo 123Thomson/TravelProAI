@@ -111,4 +111,8 @@ watchdog==4.0.1
 weasel==0.4.1
 wheel==0.43.0
 whitenoise==6.7.0
+<<<<<<< HEAD
 wrapt==1.16.0
+=======
+wrapt==1.16.0
+>>>>>>> 3d55b4429c729f1a59e847cfd54a12c6b6faa6cb
